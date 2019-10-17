@@ -11,11 +11,13 @@ buildscript {
 apply plugin: "io.spring.dependency-management"
 
 def version = [
-        springboot:"2.1.8.RELEASE"
+        springboot:"2.1.8.RELEASE",
+        lombok:"1.18.10"
 ]
 
 dependencyManagement {
     dependencies {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: version.springboot
+        dependency group: 'org.projectlombok', name: 'lombok', version: version.lombok
     }
 }
