@@ -1,0 +1,21 @@
+
+buildscript {
+    repositories {
+        maven { url 'https://repo.spring.io/plugins-snapshot' }
+    }
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.8.BUILD-SNAPSHOT'
+    }
+}
+
+apply plugin: "io.spring.dependency-management"
+
+def version = [
+        springboot:"2.1.8.RELEASE"
+]
+
+dependencyManagement {
+    dependencies {
+        dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: version.springboot
+    }
+}
