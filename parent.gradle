@@ -13,14 +13,16 @@ apply plugin: "io.spring.dependency-management"
 def version = [
         "springboot":"2.1.8.RELEASE",
         "lombok":"1.18.10",
-        "commons-lang3":"3.9"
+        "commons":[//Can't use "-" in key
+                "lang3":"3.9"
+        ]
 ]
 
 dependencyManagement {
     dependencies {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: version.springboot
         dependency group: 'org.projectlombok', name: 'lombok', version: version.lombok
-        dependency group: 'org.apache.commons', name: 'commons-lang3', version: version.commons-lang3
+        dependency group: 'org.apache.commons', name: 'commons-lang3', version: version.commons.lang3
 
     }
 }
