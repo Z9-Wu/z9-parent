@@ -9,6 +9,7 @@ buildscript {
 }
 
 apply plugin: "io.spring.dependency-management"
+apply plugin: 'maven-publish'
 
 def version = [
         "springboot":"2.1.8.RELEASE",
