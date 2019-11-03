@@ -6,6 +6,7 @@ def dependencyVersion = [
         lang3: "3.9"
     ],
 
+    //Z9 framework
     z9: [
         web : "1.0"
     ]
@@ -27,6 +28,8 @@ dependencyManagement {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
         dependency group: 'org.projectlombok', name: 'lombok', version: dependencyVersion.lombok
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: dependencyVersion.commons.lang3
+
+        //Z9 framework
         dependency group: 'com.z9.framework', name: 'z9-web', version:dependencyVersion.z9.web
     }
 }
