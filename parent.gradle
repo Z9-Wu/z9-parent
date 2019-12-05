@@ -5,6 +5,7 @@ def dependencyVersion = [
     commons: [//Can't use "-" in key
         lang3: "3.9"
     ],
+    swagger: "2.9.2",
 
     //Z9 framework
     z9: [
@@ -28,6 +29,8 @@ dependencyManagement {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
         dependency group: 'org.projectlombok', name: 'lombok', version: dependencyVersion.lombok
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: dependencyVersion.commons.lang3
+        dependency group: 'io.springfox', name: 'springfox-swagger2', version: dependencyVersion.swagger
+        dependency group: 'io.springfox', name: 'springfox-swagger-ui', version: dependencyVersion.swagger
 
         //Z9 framework
         dependency group: 'com.z9.framework', name: 'z9-web', version:dependencyVersion.z9.web
