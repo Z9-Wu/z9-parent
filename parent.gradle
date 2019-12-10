@@ -1,11 +1,16 @@
 
 def dependencyVersion = [
     springboot: "2.1.8.RELEASE",
+
     lombok: "1.18.10",
     commons: [//Can't use "-" in key
         lang3: "3.9"
     ],
+
     swagger: "2.9.2",
+
+    mybatis: "2.1.1",
+    pagehelper: "5.1.11",
 
     //Z9 framework
     z9: [
@@ -27,10 +32,15 @@ apply plugin: "io.spring.dependency-management"
 dependencyManagement {
     dependencies {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
+
         dependency group: 'org.projectlombok', name: 'lombok', version: dependencyVersion.lombok
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: dependencyVersion.commons.lang3
+
         dependency group: 'io.springfox', name: 'springfox-swagger2', version: dependencyVersion.swagger
         dependency group: 'io.springfox', name: 'springfox-swagger-ui', version: dependencyVersion.swagger
+
+        dependency group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: dependencyVersion.mybatis
+        dependency group: 'com.github.pagehelper', name: 'pagehelper', version: dependencyVersion.pagehelper
 
         //Z9 framework
         dependency group: 'com.z9.framework', name: 'z9-web', version:dependencyVersion.z9.web
