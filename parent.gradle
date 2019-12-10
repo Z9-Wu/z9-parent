@@ -29,6 +29,13 @@ buildscript {
 
 apply plugin: "io.spring.dependency-management"
 
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
 dependencyManagement {
     dependencies {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
