@@ -9,8 +9,12 @@ def dependencyVersion = [
 
     swagger: "2.9.2",
 
-    mybatis: "2.1.1",
+    mybatis: [
+        springboot: "2.1.1",
+        generator: "1.4.0"
+    ],
     pagehelper: "5.1.11",
+    mysql: "8.0.18",
 
     //Z9 framework
     z9: [
@@ -39,6 +43,7 @@ repositories {
 dependencyManagement {
     dependencies {
         dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
+        dependency group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: dependencyVersion.springboot
 
         dependency group: 'org.projectlombok', name: 'lombok', version: dependencyVersion.lombok
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: dependencyVersion.commons.lang3
@@ -46,10 +51,66 @@ dependencyManagement {
         dependency group: 'io.springfox', name: 'springfox-swagger2', version: dependencyVersion.swagger
         dependency group: 'io.springfox', name: 'springfox-swagger-ui', version: dependencyVersion.swagger
 
-        dependency group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: dependencyVersion.mybatis
+        dependency group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: dependencyVersion.mybatis.springboot
         dependency group: 'com.github.pagehelper', name: 'pagehelper', version: dependencyVersion.pagehelper
+        dependency group: 'mysql', name: 'mysql-connector-java', version: dependencyVersion.mysql
+        dependency group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: dependencyVersion.mybatis.generator
+
+
 
         //Z9 framework
         dependency group: 'com.z9.framework', name: 'z9-web', version:dependencyVersion.z9.web
+    }
+}
+
+
+
+//Mybatis generator
+def configDriverClass = "spring.datasource.driver-class-name"
+def configConnectionURL = "spring.datasource.url"
+def configUsername = "spring.datasource.username"
+def configPassword = "spring.datasource.password"
+def configIsGenerate = "app.mybatis.isGenerate"
+configurations {
+    mybatisGenerator
+}
+dependencies {
+    mybatisGenerator group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: dependencyVersion.mybatis.generator
+    mybatisGenerator group: 'mysql', name: 'mysql-connector-java', version: dependencyVersion.mysql
+}
+def getProperties = {
+
+
+
+
+    def properties = new Properties()
+    file("src/main/resources/application.properties").withInputStream { inputStream ->
+        properties.load(inputStream)
+    }
+    properties
+}
+task mybatisGenerate {
+    def properties = getProperties()
+    def isMybatisGenerate = properties.getProperty(configIsGenerate)
+    println isMybatisGenerate
+    if ('true' != isMybatisGenerate){
+        return
+    }
+    ant.properties[configDriverClass] = properties.getProperty(configDriverClass)
+    ant.properties[configConnectionURL] = properties.getProperty(configConnectionURL)
+    ant.properties[configUsername] = properties.getProperty(configUsername)
+    ant.properties[configPassword] = properties.getProperty(configPassword)
+    ant.taskdef(
+            name: 'mbgenerator',
+            classname: 'org.mybatis.generator.ant.GeneratorAntTask',
+            classpath: configurations.mybatisGenerator.asPath
+    )
+    ant.mbgenerator(overwrite: true, configfile: 'src/main/resources/generatorConfig.xml', verbose: true){
+        propertyset {
+            propertyref(name: configDriverClass)
+            propertyref(name: configConnectionURL)
+            propertyref(name: configUsername)
+            propertyref(name: configPassword)
+        }
     }
 }
