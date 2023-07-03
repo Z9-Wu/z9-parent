@@ -1,33 +1,36 @@
+//gradle 8.1.1
+ext {
+    dependencyVersion = [
+            springboot: "3.1.0",
 
-def dependencyVersion = [
-    springboot: "2.1.8.RELEASE",
+            lombok    : "1.18.28",
+            commons   : [//Can't use "-" in key
+                         lang3: "3.12.0"
+            ],
 
-    lombok: "1.18.10",
-    commons: [//Can't use "-" in key
-        lang3: "3.9"
-    ],
+            springdoc   : "2.1.0",
+            guava     : "32.0.1-jre",
 
-    swagger: "2.9.2",
+            mybatis   : [
+                    springboot: "3.0.2",
+                    generator : "1.4.2"
+            ],
+            pagehelper: "5.3.3",
+            mysql     : "8.0.33",
 
-    mybatis: [
-        springboot: "2.1.1",
-        generator: "1.4.0"
-    ],
-    pagehelper: "5.1.11",
-    mysql: "8.0.18",
-
-    //Z9 framework
-    z9: [
-        web : "1.0"
+            //Z9 framework
+            z9        : [
+                    web: "1.0"
+            ]
     ]
-]
+}
 
 buildscript {
     repositories {
-        maven { url 'https://repo.spring.io/plugins-snapshot' }
+        maven { url 'https://repo.maven.apache.org/maven2' }
     }
     dependencies {
-        classpath group: 'io.spring.gradle', name:'dependency-management-plugin', version: '1.0.8.BUILD-SNAPSHOT'
+        classpath "io.spring.gradle:dependency-management-plugin:1.1.0"
     }
 }
 
@@ -36,30 +39,30 @@ apply plugin: "io.spring.dependency-management"
 repositories {
     mavenLocal()
     maven {
-        url = 'http://repo.maven.apache.org/maven2'
+        url = 'https://repo.maven.apache.org/maven2'
     }
 }
 
 dependencyManagement {
     dependencies {
-        dependency group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: dependencyVersion.springboot
-        dependency group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: dependencyVersion.springboot
+        dependency "org.springframework.boot:spring-boot-starter-web:$dependencyVersion.springboot"
+        dependency "org.springframework.boot:spring-boot-starter-actuator:$dependencyVersion.springboot"
 
-        dependency group: 'org.projectlombok', name: 'lombok', version: dependencyVersion.lombok
-        dependency group: 'org.apache.commons', name: 'commons-lang3', version: dependencyVersion.commons.lang3
+        dependency "org.projectlombok:lombok:$dependencyVersion.lombok"
+        dependency "org.apache.commons:commons-lang3:$dependencyVersion.commons.lang3"
 
-        dependency group: 'io.springfox', name: 'springfox-swagger2', version: dependencyVersion.swagger
-        dependency group: 'io.springfox', name: 'springfox-swagger-ui', version: dependencyVersion.swagger
+        dependency "org.springdoc:springdoc-openapi-starter-webmvc-ui:$dependencyVersion.springdoc"
+//        dependency "com.google.guava:guava:$dependencyVersion.guava"
 
-        dependency group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: dependencyVersion.mybatis.springboot
-        dependency group: 'com.github.pagehelper', name: 'pagehelper', version: dependencyVersion.pagehelper
-        dependency group: 'mysql', name: 'mysql-connector-java', version: dependencyVersion.mysql
-        dependency group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: dependencyVersion.mybatis.generator
+        dependency "org.mybatis.spring.boot:mybatis-spring-boot-starter:$dependencyVersion.mybatis.springboot"
+        dependency "com.github.pagehelper:pagehelper:$dependencyVersion.pagehelper"
+        dependency "com.mysql:mysql-connector-j:$dependencyVersion.mysql"
+        dependency "org.mybatis.generator:mybatis-generator-core:$dependencyVersion.mybatis.generator"
 
 
 
         //Z9 framework
-        dependency group: 'com.z9.framework', name: 'z9-web', version:dependencyVersion.z9.web
+        dependency "com.z9.framework:z9-web:$dependencyVersion.z9.web"
     }
 }
 
@@ -75,8 +78,8 @@ configurations {
     mybatisGenerator
 }
 dependencies {
-    mybatisGenerator group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: dependencyVersion.mybatis.generator
-    mybatisGenerator group: 'mysql', name: 'mysql-connector-java', version: dependencyVersion.mysql
+    mybatisGenerator "org.mybatis.generator:mybatis-generator-core:$dependencyVersion.mybatis.generator"
+    mybatisGenerator "mysql:mysql-connector-java:$dependencyVersion.mysql"
 }
 def getProperties = {
 
